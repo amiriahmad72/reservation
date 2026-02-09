@@ -1,0 +1,38 @@
+spring:
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    defer-datasource-initialization: true
+#    properties:
+#      jakarta:
+#        persistence:
+#          schema-generation:
+#            create-source: metadata
+#            scripts:
+#              action: create
+#              create-target: dev/create.sql
+  datasource:
+    driverClassName: org.postgresql.Driver
+
+logging:
+  level:
+    root: info
+    com:
+      azki:
+        example: trace
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: trace
+        transaction:
+          interceptor: trace
+        security: debug
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace
+        type:
+          descriptor:
+            sql:
+              BasicBinder: trace

@@ -1,0 +1,70 @@
+app:
+  security:
+    secret: ${JWT_SECRET}
+    accessExp: 900000
+    refreshExp: 2592000000
+    admins:
+      - username: superAdmin
+        password: ${SUPER_ADMIN_PASS}
+        roles:
+          - ADMIN
+          - SUPER_ADMIN
+      - username: admin
+        password: ${ADMIN_PASS}
+        roles:
+          - ADMIN
+spring:
+  application:
+    name: reservation
+  profiles:
+    active: dev
+  jackson:
+    time-zone: UTC
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          '[time_zone]': UTC
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "*"
+  endpoint:
+    configprops:
+      show-values: when-authorized
+    env:
+      show-values: when-authorized
+    health:
+      show-details: when-authorized
+  info:
+    defaults:
+      enabled: true
+    build:
+        enabled: true
+    env:
+      enabled: true
+    git:
+        enabled: true
+    java:
+      enabled: true
+    os:
+      enabled: true
+    process:
+      enabled: true
+  metrics:
+    tags:
+      application:
+        ${spring.application.name}-${spring.profiles.active}
+
+springdoc:
+  swagger-ui:
+    path: /doc/swagger-ui
+    doc-expansion: none
+    filter: true
+    tags-sorter: alpha
+  api-docs:
+    path: /doc/swagger-api-docs
