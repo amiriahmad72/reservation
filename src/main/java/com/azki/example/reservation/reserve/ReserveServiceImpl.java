@@ -1,5 +1,6 @@
 package com.azki.example.reservation.reserve;
 
+import com.azki.example.reservation.exception.NotFoundException;
 import com.azki.example.reservation.slot.AvailableSlot;
 import com.azki.example.reservation.slot.AvailableSlotService;
 import com.azki.example.reservation.user.CustomUserDetails;
@@ -37,7 +38,7 @@ class ReserveServiceImpl implements ReserveService {
     @Override
     public void cancelReservation(Long id) {
         ReservedSlot reservedSlot = reservedSlotRepository.findById(id)
-                .orElseThrow(); //todo
+                .orElseThrow(() -> new NotFoundException(ReservedSlot.class, id));
         reservedSlot.cancel();
         reservedSlotRepository.save(reservedSlot);
         availableSlotService.setIsReserved(reservedSlot.getSlot(), false);

@@ -1,5 +1,6 @@
 package com.azki.example.reservation.slot;
 
+import com.azki.example.reservation.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ class AvailableSlotServiceImpl implements AvailableSlotService {
     @Override
     public AvailableSlot getFirstAvailableSlot() {
         return availableSlotRepository.findTopByIsReservedFalseOrderByStartTimeAsc()
-                .orElseThrow(); //todo
+                .orElseThrow(() -> new NotFoundException("No available slot found"));
     }
 
     @Transactional(propagation = Propagation.REQUIRED)

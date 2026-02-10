@@ -26,6 +26,9 @@ spring:
       hibernate:
         jdbc:
           '[time_zone]': UTC
+  web:
+    locale: fa_IR
+    locale-resolver: fixed
 
 management:
   endpoints:

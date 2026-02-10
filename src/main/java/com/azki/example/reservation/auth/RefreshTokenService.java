@@ -1,6 +1,7 @@
 
 package com.azki.example.reservation.auth;
 
+import com.azki.example.reservation.exception.NotFoundException;
 import com.azki.example.reservation.user.User;
 import com.azki.example.reservation.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class RefreshTokenService {
     public RefreshToken rotate(String token) {
         RefreshToken oldRefreshToken = repo.findByToken(token)
                 .filter(t -> !t.isRevoked())
-                .filter(t -> t.getExpiry().isAfter(Instant.now())).orElseThrow();
+                .filter(t -> t.getExpiry().isAfter(Instant.now())).orElseThrow(() -> new NotFoundException(RefreshToken.class, token));
         revoke(oldRefreshToken);
         RefreshToken newRefreshToken = create(oldRefreshToken.getUser());
         User justForReloadUserFromDB = newRefreshToken.getUser();
